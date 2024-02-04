@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "gitpush":"git add . && git commit -m 'update' && git push origin master",
-    "gitpull":"git pull origin master",
+    "gitpull":"git pull origin master"
   },
   "keywords": [],
   "author": "",
