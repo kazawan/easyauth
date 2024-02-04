@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "gitpush":"git add . && git commit -m 'update' && git push origin master",
-    "gitpull":"git pull origin master"
+    "gitpush":"git add . && git commit -m 'update' && git push origin main",
+    "gitpull":"git pull origin main"
   },
   "keywords": [],
   "author": "",
