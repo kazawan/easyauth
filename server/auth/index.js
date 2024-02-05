@@ -1,6 +1,7 @@
-const { findUser, SignUp } = require("./authapi");
+const {  SignUp,userLogin } = require("./authapi");
 const AUTH_API = {};
 
-AUTH_API["findUser"] = findUser;
+
 AUTH_API["SignUp"] = SignUp;
+AUTH_API["userLogin"] = userLogin;
 module.exports = AUTH_API;

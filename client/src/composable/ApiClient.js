@@ -1,4 +1,4 @@
-
+import { ref } from "vue";
 
 const fetchurl = "http://localhost:3000/";
 const option = {
@@ -8,58 +8,76 @@ const option = {
   },
 };
 
-export default  function ApiClient(){
-  const authFetch = async (fnname, query) => {
-    const res = await fetch(fetchurl + "auth", {
-      ...option,
-      body: JSON.stringify({ fn: fnname, query }),
-    }).then((res) => res.json());
-    return res;
-  };
+const user = ref(null)
 
-  const apiFetch = async (fnname, query) => {
-    const res = await fetch(fetchurl + "api", {
-      ...option,
-      body: JSON.stringify({ fn: fnname, query }),
-    }).then((res) => res.json());
-    return res;
-  };
-  
+export default function ApiClient() {
+  // const authFetch = async (fnname, query) => {
+  //   const res = await fetch(fetchurl + "auth", {
+  //     ...option,
+  //     body: JSON.stringify({ fn: fnname, query }),
+  //   }).then((res) => res.json());
+  //   return res;
+  // };
 
-  /**
-   * @name EasyAuth 登陆接口
-   * @param {object} data //一个对象
-   * @param {string} data.email //邮箱
-   * @param {string} data.password //密码
-   * @param {string} data.name //用户名
-   * 
-   * @returns 
-   */
-  const SignUp = async (data) => {
-    const fnname = 'SignUp'
-    const query = {
-      data:{
-        ...data
+
+
+  const auth = new function () {
+    /**
+     * @param {Object} userinfo
+     * @结构  {username,password,email}
+     * @param {string} userinfo.username //用户名
+     * @param {string} userinfo.password //密码
+     * @param {string} userinfo.email //邮箱
+     * 
+     * @returns 
+     */
+    this.SignUp = async (userinfo) => {
+      const query = {
+        data: {
+          ...userinfo
+        }
       }
-    }
-    const res = await fetch(fetchurl + "auth", {
-      ...option,
-      body: JSON.stringify({ fn: fnname, query }),
-    }).then((res) => res.json());
-    return res;
+      const res = await fetch(fetchurl + "auth", {
+        ...option,
+        body: JSON.stringify({ fn: "SignUp", query }),
+      }).then((res) => res.json());
+      return res;
+    };
+
+
+    this.Login = async (logininfo) => {
+      const query = {
+        ...logininfo
+      }
+      const res = await fetch(fetchurl + "auth", {
+        ...option,
+        body: JSON.stringify({ fn: "userLogin", query }),
+      }).then((res) => res.json());
+      return res
+    };
+
+
+
+
+    this.Logout = async () => {
+      localStorage.removeItem("userinfo");
+      console.log(!!user.value)
+      user.value = null;
+      return
+    };
   }
 
-  const LogIn = async (data) => {
-    const fnname = 'LogIn'
-    const query = {
-      
-    }
-    const res = await fetch(fetchurl + "auth", {
-      ...option,
-      body: JSON.stringify({ fn: fnname, query }),
-    }).then((res) => res.json());
-    return res;
-  }
 
-  return {authFetch, apiFetch,SignUp}
+  const isLoggedIn = () => {
+    return !!user.value;
+  };
+
+
+  return {
+    user,
+    auth,
+    isLoggedIn
+  }
 }
+
+
