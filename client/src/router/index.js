@@ -30,6 +30,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const { isLoggedIn } = ApiClient();
     if (to.name !== 'Login' && to.name !== 'Signup' && !isLoggedIn()) {
+        alert('请先登录')
         next({ name: 'Login' })
     } else {
         next()

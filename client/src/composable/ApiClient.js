@@ -1,4 +1,6 @@
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+
 
 const fetchurl = "http://localhost:3000/";
 const option = {
@@ -18,7 +20,7 @@ export default function ApiClient() {
   //   }).then((res) => res.json());
   //   return res;
   // };
-
+  const router = useRouter();
 
 
   const auth = new function () {
@@ -53,6 +55,14 @@ export default function ApiClient() {
         ...option,
         body: JSON.stringify({ fn: "userLogin", query }),
       }).then((res) => res.json());
+      if (res.code === 200) {
+      router.push('/');
+        
+      }
+      if (res.code === 500) {
+        alert(res.msg)
+        return
+      }
       return res
     };
 
@@ -62,6 +72,7 @@ export default function ApiClient() {
     this.Logout = async () => {
       localStorage.removeItem("userinfo");
       console.log(!!user.value)
+      router.push('/login');
       user.value = null;
       return
     };
@@ -72,10 +83,19 @@ export default function ApiClient() {
     return !!user.value;
   };
 
+  const api = async(fnname, query) => {
+    const res =  fetch(fetchurl + "api", {
+      ...option,
+      body: JSON.stringify({ fn: fnname, query }),
+    }).then((res) => res.json());
+    return res;
+  }
+ 
 
   return {
     user,
     auth,
+    api,
     isLoggedIn
   }
 }

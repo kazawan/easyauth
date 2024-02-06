@@ -1,6 +1,10 @@
 const prisma = require("../db/prisma");
 const { Password_Encrypted, Password_Compare } = require('../bcryptjs/index.js')
 const {jwt,JWT_SECRET} = require('../jwt/index.js')
+
+
+
+
 const SignUp = async (req, res) => {
   const { query } = req.body;
   query.data.password = Password_Encrypted(query.data.password)

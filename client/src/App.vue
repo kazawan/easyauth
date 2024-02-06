@@ -17,6 +17,7 @@ const router = useRouter();
 const {user} = ApiClient();
 
 onMounted(() => {
+  
   user.value = JSON.parse(localStorage.getItem("userinfo"));
 });
 

@@ -1,5 +1,5 @@
 <template>
-
+      <h1>SIGNUP</h1>
     <div class="signup">
     <label for="exampleInputName">SignUp Name</label>
     <input

@@ -1,5 +1,5 @@
 <template>
-
+    <h1>LOGIN</h1>
     <div class="Login">
 
     <label for="exampleInputEmail1">Email address</label>
