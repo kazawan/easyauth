@@ -35,12 +35,14 @@ const userLogin = async (req, res) => {
       
     });
     console.log(Password_Compare(query.password, user.password));
+    const email = user.email;
+    
     if (Password_Compare(query.password, user.password)) {
-      const token = jwt.sign({ query }, JWT_SECRET, {
+      const token = jwt.sign({ email }, JWT_SECRET, {
           expiresIn: "3m"
       });
       const tokenExp = 1000 * 60 * 3;
-      const refreshtoekn = jwt.sign({ query }, JWT_SECRET, {
+      const refreshtoekn = jwt.sign({ email }, JWT_SECRET, {
           expiresIn: "7d"
       });
       const refreshtoeknExp = 1000 * 60 * 60 * 24 * 7;

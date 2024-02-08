@@ -11,7 +11,7 @@ const todo = reactive({});
 onMounted(async()=>{
     // user.value = JSON.parse(localStorage.getItem("userinfo"));
     const {todos} = await api('GetTodos',{
-        email: user.value.email
+        token: user.value.token
     })
     todo.value = todos;
     
