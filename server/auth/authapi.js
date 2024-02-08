@@ -26,7 +26,7 @@ const SignUp = async (req, res) => {
 
 const userLogin = async (req, res) => {
   const { query } = req.body;
-  console.log(query);
+  // console.log(query);
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -34,14 +34,14 @@ const userLogin = async (req, res) => {
       }
       
     });
-    console.log(Password_Compare(query.password, user.password));
+    // console.log(Password_Compare(query.password, user.password));
     const email = user.email;
     
     if (Password_Compare(query.password, user.password)) {
       const token = jwt.sign({ email }, JWT_SECRET, {
-          expiresIn: "3m"
+          expiresIn: "10s"
       });
-      const tokenExp = 1000 * 60 * 3;
+      const tokenExp = 1000 * 10;
       const refreshtoekn = jwt.sign({ email }, JWT_SECRET, {
           expiresIn: "7d"
       });
@@ -80,7 +80,23 @@ const userLogin = async (req, res) => {
 }
 
 
+const refreshAssessToken = async (req, res) => {
+  const { query } = req.body;
+  const user = jwt_verify(query.refreshtoekn);
+  const token = jwt.sign({ email: user.email }, JWT_SECRET, {
+    expiresIn: "10s"
+  });
+  const tokenExp = 1000 * 10;
+  res.send({
+    code: 200,
+    token,
+    tokenExp
+  });
+}
+
+
 module.exports = {
   SignUp,
   userLogin,
+  refreshAssessToken
 };

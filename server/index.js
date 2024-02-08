@@ -4,6 +4,7 @@ require("dotenv").config({ path: "./.env" });
 const cors = require("cors");
 const { expressjwt } = require("express-jwt");
 const {AUTH_API,API} = require("./auth/index");
+const { jwt_verify_middle } = require("./jwt/index");
 
 const app = express();
 const port = process.env.PORT || 3030;
@@ -25,7 +26,7 @@ app.post("/auth", (req, res) => {
   AUTH_API[fn](req, res);
 });
 
-app.post("/api", (req, res) => {
+app.post("/api",jwt_verify_middle, (req, res) => {
   const { fn, query } = req.body;
   if (!API[fn]) {
     res.send({
